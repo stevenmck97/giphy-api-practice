@@ -14,15 +14,19 @@
                 justify-content: center;
             }
         </style>
+        <label for="gifSearch">Search for a gif here!</label>
+        <input type="search" name="gifSearch" id="gifSearch" />
         <img src="#" alt="cat" />
         <button id="newGifBtn">Click here for a new gif</button>
         <script>
             const img = document.querySelector("img");
             const newGifBtn = document.querySelector("#newGifBtn");
+            const searchInput = document.querySelector("#gifSearch");
 
             newGifBtn.addEventListener("click", () => {
+                let searchTerm = searchInput.value;
                 fetch(
-                    "https://api.giphy.com/v1/gifs/translate?api_key=giphy_key=cat",
+                    `https://api.giphy.com/v1/gifs/translate?api_key=${giphy_api_key}&s=${searchTerm}`,
                     { mode: "cors" }
                 )
                     .then(function (response) {
