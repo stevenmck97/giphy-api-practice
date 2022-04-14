@@ -14,30 +14,29 @@
                 justify-content: center;
             }
         </style>
+
         <label for="gifSearch">Search for a gif here!</label>
         <input type="search" name="gifSearch" id="gifSearch" />
         <img src="#" alt="cat" />
         <button id="newGifBtn">Click here for a new gif</button>
+
         <script>
             const img = document.querySelector("img");
             const newGifBtn = document.querySelector("#newGifBtn");
             const searchInput = document.querySelector("#gifSearch");
 
-            newGifBtn.addEventListener("click", () => {
+            async function getGifs() {
                 let searchTerm = searchInput.value;
-                fetch(
+                const response = await fetch(
                     `https://api.giphy.com/v1/gifs/translate?api_key=${giphy_api_key}&s=${searchTerm}`,
                     { mode: "cors" }
-                )
-                    .then(function (response) {
-                        return response.json();
-                    })
-                    .then(function (response) {
-                        img.src = response.data.images.original.url;
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    });
+                );
+                const gifData = await response.json();
+                img.src = gifData.data.images.original.url;
+            }
+
+            newGifBtn.addEventListener("click", () => {
+                getGifs();
             });
         </script>
     </body>
